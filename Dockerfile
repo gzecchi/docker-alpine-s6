@@ -11,7 +11,7 @@ ENV S6_OVERLAY_VERSION=v2.0.0.1 \
 
 RUN set -x && apk update && \
     apk upgrade && \
-### Install MailHog
+    ### Install MailHog
     apk add --no-cache -t .mailhog-build-deps \
             go \
             git \
@@ -30,7 +30,7 @@ RUN set -x && apk update && \
     \
     adduser -D -u 1025 mailhog && \
     \
-### Add core utils
+    ### Add Coreutils
     apk add -t .base-rundeps \
             bash \
             busybox-extras \
@@ -53,7 +53,7 @@ RUN set -x && apk update && \
     ## Quiet down sudo
     echo "Set disable_coredump false" > /etc/sudo.conf && \
     \
-### S6 Installation
+    ### S6 Installation
     case "${QEMU_ARCH}" in \
         "linux/amd64") S6_ARCH='amd64';; \
         "linux/386") S6_ARCH='x86';; \
@@ -64,9 +64,9 @@ RUN set -x && apk update && \
     esac && \
     curl -SL https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz | tar xvzf - -C / && \
     mkdir -p /assets/cron && \
-### Clean Up
-    apk del --purge \
-    rm -rf /tmp/* \
+    ### Clean Up
+    apk del --purge && \
+    rm -rf /tmp/* && \
     rm -rf /usr/src/*
 
 ### Networking Configuration
