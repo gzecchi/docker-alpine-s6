@@ -33,7 +33,7 @@ script: >-
     --platform ${BUILD_PLATFORM} \
     --build-arg ALPINE_VERSION=${ALPINE_VERSION} \
     --tag ${DOCKER_REPO}:${ALPINE_VERSION} \
-    --push
+    --push \
     .
   
 after_success:
