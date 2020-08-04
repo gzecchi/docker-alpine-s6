@@ -9,6 +9,7 @@ ENV S6_OVERLAY_VERSION=v2.0.0.1 \
     ENABLE_CRON=TRUE \
     ENABLE_SMTP=TRUE
 
+ARG BUILDPLATFORM
 RUN set -x && apk update && \
     apk upgrade && \
     ### Install MailHog
