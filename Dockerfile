@@ -1,4 +1,5 @@
 ARG ALPINE_VERSION
+ARG BUILDPLATFORM
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION:-3.12}
 LABEL maintainer="Gianluca Zecchi (gian.zecchi@gmail.com)"
 
