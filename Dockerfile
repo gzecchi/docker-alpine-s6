@@ -2,9 +2,6 @@ ARG ALPINE_VERSION
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION:-3.12}
 LABEL maintainer="Gianluca Zecchi (gian.zecchi@gmail.com)"
 
-ARG BUILDPLATFORM
-RUN echo "[DEBUG] Running on ${BUILDPLATFORM}"
-
 ### Set Defaults
 ENV S6_OVERLAY_VERSION=v2.0.0.1 \
     DEBUG_MODE=FALSE \
@@ -58,11 +55,11 @@ RUN set -x && apk update && \
     \
 ### S6 Installation
     case "${QEMU_ARCH}" in \
-        linux/amd64) S6_ARCH='amd64';; \
-        linux/386) S6_ARCH='x86';; \
-        linux/arm64) S6_ARCH='aarch64';; \
-        linux/arm/v7) S6_ARCH='armhf';; \
-        linux/arm/v6) S6_ARCH='armhf';; \
+        "linux/amd64") S6_ARCH='amd64';; \
+        "linux/386") S6_ARCH='x86';; \
+        "linux/arm64") S6_ARCH='aarch64';; \
+        "linux/arm/v7") S6_ARCH='armhf';; \
+        "linux/arm/v6") S6_ARCH='armhf';; \
         *) echo "Unsupported Architecture"; exit 1 ;; \
     esac && \
     curl -SL https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz | tar xvzf - -C / && \
