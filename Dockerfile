@@ -54,7 +54,7 @@ RUN set -x && apk update && \
     echo "Set disable_coredump false" > /etc/sudo.conf && \
     \
     ### S6 Installation
-    case "${QEMU_ARCH}" in \
+    case "${BUILDPLATFORM}" in \
         "linux/amd64") S6_ARCH='amd64';; \
         "linux/386") S6_ARCH='x86';; \
         "linux/arm64") S6_ARCH='aarch64';; \
