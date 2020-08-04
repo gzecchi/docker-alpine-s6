@@ -30,8 +30,10 @@ before_script:
 script: >- 
   docker buildx build \
     --progress plain \
-    --platform=${BUILD_PLATFORM} \
+    --platform ${BUILD_PLATFORM} \
     --build-arg ALPINE_VERSION=${ALPINE_VERSION} \
+    --tag ${DOCKER_REPO}:${ALPINE_VERSION} \
+    --push
     .
   
 after_success:
