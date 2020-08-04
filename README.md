@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This is a multi architecture Base Alpine Image with the S6 Overlay
+This is a Multi-Architecture Base Alpine Image with the S6 Overlay
 
 [Alpine Linux](https://alpinelinux.org/) + [S6 Overlay](https://github.com/just-containers/s6-overlay)
 
