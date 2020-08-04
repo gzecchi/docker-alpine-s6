@@ -4,7 +4,7 @@ language: shell
 
 env:
   global:
-    - DOCKER_REPO: gzecchi/alpine-s6
+    - DOCKER_REPO: ${DOCKER_HUB_PASS}/alpine-s6
     - BUILD_PLATFORM: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6
   jobs:
     - ALPINE_VERSION=3.12
@@ -25,7 +25,7 @@ install:
   - docker buildx create --name xbuilder --use
 
 before_script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "${DOCKER_HUB_PASS}" | docker login --username "${DOCKER_HUB_USER}" --password-stdin
 
 script: >- 
   docker buildx build \
