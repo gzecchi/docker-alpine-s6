@@ -1,0 +1,38 @@
+os: linux
+dist: bionic
+language: shell
+
+env:
+  global:
+    - DOCKER_REPO: gzecchi/alpine-s6
+    - BUILD_PLATFORM: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6
+  jobs:
+    - ALPINE_VERSION=3.12
+    - ALPINE_VERSION=edge
+
+before_install:
+  # Enable Experimental Features of Dockcer CLI
+  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+  - export DOCKER_CLI_EXPERIMENTAL=enabled
+  # Update to Latest Docker-CE - 19.03.12
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce=5:19.03.12~3-0~ubuntu-bionic
+
+install:
+  - docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+  - docker buildx create --name xbuilder --use
+
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+script: >- 
+  docker buildx build \
+    --progress plain \
+    --platform=${BUILD_PLATFORM} \
+    --build-arg ALPINE_VERSION=${ALPINE_VERSION} \
+    .
+  
+after_success:
+  - docker push $DOCKER_REPO
